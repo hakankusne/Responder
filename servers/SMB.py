@@ -195,6 +195,8 @@ class SMB1(BaseRequestHandler):  # SMB Server class, NTLMSSP
 					try:
 						self.request.send(Buffer)
 						data = self.request.recv(1024)
+						if data:						
+							print data
 					except:
 						pass
 
@@ -205,9 +207,11 @@ class SMB1(BaseRequestHandler):  # SMB Server class, NTLMSSP
 		
 					Packet = str(Header)+str(Body)
 					Buffer = struct.pack(">i", len(''.join(Packet)))+Packet
-
-					self.request.send(Buffer)
-					data = self.request.recv(1024)
+					self.request.send(Buffer)					
+					try:						
+						data = self.request.recv(1024)
+					except :
+						pass
 
 				if data[8:10] == "\x73\x00":  # Session Setup AndX Request
 					IsNT4ClearTxt(data, self.client_address[0])

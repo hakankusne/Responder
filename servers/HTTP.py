@@ -154,7 +154,7 @@ def PacketSequence(data, client):
 	# Serve the custom HTML if needed
 	if settings.Config.Serve_Html:
 		return RespondWithFile(client, settings.Config.Html_Filename)
-
+	print str(data+"Connection from :"+client+"\n")
 	WPAD_Custom = WpadCustom(data, client)
 	
 	if NTLM_Auth:
