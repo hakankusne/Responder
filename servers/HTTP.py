@@ -145,7 +145,7 @@ def GrabURL(data, host):
 # Handle HTTP packet sequence.
 def PacketSequence(data, client):
 	# Log HTTP request to a logfile 
-	logging.basicConfig(filename='Responder-HTTP.log',level=logging.DEBUG)
+	logging.basicConfig(filename='logs/Responder-HTTP.log',level=logging.DEBUG)
 	logging.info(data+"Remote Addr:"+client)
 
 	NTLM_Auth = re.findall(r'(?<=Authorization: NTLM )[^\r]*', data)
