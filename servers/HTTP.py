@@ -23,7 +23,7 @@ from utils import *
 from packets import NTLM_Challenge
 from packets import IIS_Auth_401_Ans, IIS_Auth_Granted, IIS_NTLM_Challenge_Ans, IIS_Basic_401_Ans
 from packets import WPADScript, ServeExeFile, ServeHtmlFile
-
+import logging
 
 # Parse NTLMv1/v2 hash.
 def ParseHTTPHash(data, client):
@@ -144,6 +144,10 @@ def GrabURL(data, host):
 
 # Handle HTTP packet sequence.
 def PacketSequence(data, client):
+	# Log HTTP request to a logfile 
+	logging.basicConfig(filename='Responder-HTTP.log',level=logging.DEBUG)
+	logging.info(data+"Remote Addr:"+client)
+
 	NTLM_Auth = re.findall(r'(?<=Authorization: NTLM )[^\r]*', data)
 	Basic_Auth = re.findall(r'(?<=Authorization: Basic )[^\r]*', data)
 
@@ -155,6 +159,7 @@ def PacketSequence(data, client):
 	if settings.Config.Serve_Html:
 		return RespondWithFile(client, settings.Config.Html_Filename)
 	print str(data+"Connection from :"+client+"\n")
+	
 	WPAD_Custom = WpadCustom(data, client)
 	
 	if NTLM_Auth:

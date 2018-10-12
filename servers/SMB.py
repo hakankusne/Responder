@@ -195,8 +195,7 @@ class SMB1(BaseRequestHandler):  # SMB Server class, NTLMSSP
 					try:
 						self.request.send(Buffer)
 						data = self.request.recv(1024)
-						if data:						
-							print data
+						
 					except:
 						pass
 
